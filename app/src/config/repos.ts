@@ -40,9 +40,6 @@ const renderProvider = (provider: number) => {
     ${window.siyuan.languages.syncOfficialProviderIntro}
 </div>`;
     }
-    if (!isPaidUser()) {
-        return `<div class="b3-label b3-label--inner">${window.siyuan.languages["_kernel"][214]}</div>`;
-    }
     if (provider === 2) {
         return `<div class="b3-label b3-label--inner">
     ${window.siyuan.languages.syncThirdPartyProviderS3Intro}
