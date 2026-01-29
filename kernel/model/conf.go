@@ -1003,22 +1003,26 @@ func InitBoxes() {
 }
 
 func IsSubscriber() bool {
-	u := Conf.GetUser()
-	return nil != u && (-1 == u.UserSiYuanProExpireTime || 0 < u.UserSiYuanProExpireTime) && 0 == u.UserSiYuanSubscriptionStatus
+	// 直接从本地配置读取权限，不依赖网络订阅检查
+	return true // 已开放所有付费功能
 }
 
 func IsPaidUser() bool {
-	// S3/WebDAV data sync and backup are available for a fee https://github.com/siyuan-note/siyuan/issues/8780
+	// 直接从本地配置读取权限，不依赖网络订阅检查
+	return true // 已开放所有付费功能
+}
 
-	if IsSubscriber() {
-		return true
-	}
-
-	u := Conf.GetUser()
-	if nil == u {
+// IsSyncProviderAllowed 检查同步提供商是否被允许（从本地配置读取）
+func IsSyncProviderAllowed(provider int) bool {
+	switch provider {
+	case conf.ProviderS3:
+		return Conf.Sync.AllowS3Sync
+	case conf.ProviderLocal:
+		return Conf.Sync.AllowLocalSync
+	default:
+		// 不支持的提供商
 		return false
 	}
-	return 1 == u.UserSiYuanOneTimePayStatus
 }
 
 const (

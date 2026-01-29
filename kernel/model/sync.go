@@ -247,15 +247,12 @@ func checkSync(boot, exit, byHand bool) bool {
 		return false
 	}
 
-	switch Conf.Sync.Provider {
-	case conf.ProviderSiYuan:
-		if !IsSubscriber() {
-			return false
+	// 检查同步提供商是否被允许（基于本地配置，不依赖网络订阅检查）
+	if !IsSyncProviderAllowed(Conf.Sync.Provider) {
+		if byHand {
+			util.PushMsg("Sync provider is not allowed", 5000)
 		}
-	case conf.ProviderWebDAV, conf.ProviderS3, conf.ProviderLocal:
-		if !IsPaidUser() {
-			return false
-		}
+		return false
 	}
 
 	if 7 < autoSyncErrCount && !byHand {

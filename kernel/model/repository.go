@@ -792,17 +792,9 @@ func DownloadCloudSnapshot(tag, id string) (err error) {
 		return
 	}
 
-	switch Conf.Sync.Provider {
-	case conf.ProviderSiYuan:
-		if !IsSubscriber() {
-			util.PushErrMsg(Conf.Language(29), 5000)
-			return
-		}
-	case conf.ProviderWebDAV, conf.ProviderS3, conf.ProviderLocal:
-		if !IsPaidUser() {
-			util.PushErrMsg(Conf.Language(214), 5000)
-			return
-		}
+	if !IsSyncProviderAllowed(Conf.Sync.Provider) {
+		util.PushErrMsg(Conf.Language(214), 5000)
+		return
 	}
 
 	defer util.PushClearProgress()
@@ -834,17 +826,9 @@ func UploadCloudSnapshot(tag, id string) (err error) {
 		return
 	}
 
-	switch Conf.Sync.Provider {
-	case conf.ProviderSiYuan:
-		if !IsSubscriber() {
-			util.PushErrMsg(Conf.Language(29), 5000)
-			return
-		}
-	case conf.ProviderWebDAV, conf.ProviderS3, conf.ProviderLocal:
-		if !IsPaidUser() {
-			util.PushErrMsg(Conf.Language(214), 5000)
-			return
-		}
+	if !IsSyncProviderAllowed(Conf.Sync.Provider) {
+		util.PushErrMsg(Conf.Language(214), 5000)
+		return
 	}
 
 	util.PushEndlessProgress(Conf.Language(116))
@@ -880,17 +864,9 @@ func RemoveCloudRepoTag(tag string) (err error) {
 		return
 	}
 
-	switch Conf.Sync.Provider {
-	case conf.ProviderSiYuan:
-		if !IsSubscriber() {
-			util.PushErrMsg(Conf.Language(29), 5000)
-			return
-		}
-	case conf.ProviderWebDAV, conf.ProviderS3, conf.ProviderLocal:
-		if !IsPaidUser() {
-			util.PushErrMsg(Conf.Language(214), 5000)
-			return
-		}
+	if !IsSyncProviderAllowed(Conf.Sync.Provider) {
+		util.PushErrMsg(Conf.Language(214), 5000)
+		return
 	}
 
 	err = repo.RemoveCloudRepoTag(tag)
@@ -912,17 +888,9 @@ func GetCloudRepoTagSnapshots() (ret []*dejavu.Log, err error) {
 		return
 	}
 
-	switch Conf.Sync.Provider {
-	case conf.ProviderSiYuan:
-		if !IsSubscriber() {
-			util.PushErrMsg(Conf.Language(29), 5000)
-			return
-		}
-	case conf.ProviderWebDAV, conf.ProviderS3, conf.ProviderLocal:
-		if !IsPaidUser() {
-			util.PushErrMsg(Conf.Language(214), 5000)
-			return
-		}
+	if !IsSyncProviderAllowed(Conf.Sync.Provider) {
+		util.PushErrMsg(Conf.Language(214), 5000)
+		return
 	}
 
 	logs, err := repo.GetCloudRepoTagLogs(map[string]interface{}{eventbus.CtxPushMsg: eventbus.CtxPushMsgToStatusBar})
@@ -948,17 +916,9 @@ func GetCloudRepoSnapshots(page int) (ret []*dejavu.Log, pageCount, totalCount i
 		return
 	}
 
-	switch Conf.Sync.Provider {
-	case conf.ProviderSiYuan:
-		if !IsSubscriber() {
-			util.PushErrMsg(Conf.Language(29), 5000)
-			return
-		}
-	case conf.ProviderWebDAV, conf.ProviderS3, conf.ProviderLocal:
-		if !IsPaidUser() {
-			util.PushErrMsg(Conf.Language(214), 5000)
-			return
-		}
+	if !IsSyncProviderAllowed(Conf.Sync.Provider) {
+		util.PushErrMsg(Conf.Language(214), 5000)
+		return
 	}
 
 	if 1 > page {

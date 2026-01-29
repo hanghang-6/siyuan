@@ -29,6 +29,8 @@ type Sync struct {
 	S3                  *S3     `json:"s3"`                  // S3 对象存储服务配置
 	WebDAV              *WebDAV `json:"webdav"`              // WebDAV 服务配置
 	Local               *Local  `json:"local"`               // 本地文件系统 服务配置
+	AllowS3Sync         bool    `json:"allowS3Sync"`         // 是否允许 S3 同步（从本地配置读取，不受网络订阅检查约束）
+	AllowLocalSync      bool    `json:"allowLocalSync"`      // 是否允许本地文件系统同步（从本地配置读取，不受网络订阅检查约束）
 }
 
 func NewSync() *Sync {
@@ -40,6 +42,8 @@ func NewSync() *Sync {
 		GenerateConflictDoc: false,
 		Provider:            ProviderSiYuan,
 		Interval:            30,
+		AllowS3Sync:         true,        // 默认允许 S3 同步
+		AllowLocalSync:      true,        // 默认允许本地同步
 	}
 }
 
